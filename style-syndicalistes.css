@@ -1,0 +1,532 @@
+/* style-syndicalistes.css
+   Palette professionnelle et claire inspirée du logo Lumesys
+   - Bleu : #0D3B66 (accent)
+   - Bleu clair : #2E6EA7 (hover / accents)
+   - Doré doux : #C59B56 (accent secondaire)
+   - Fond très clair : #F8FAFC
+   - Texte sombre : #1E293B
+*/
+
+/* Définition des variables CSS globales pour les couleurs et mesures */
+:root{
+  --bleu-fonce: #0D3B66; /* Couleur bleu foncé principale */
+  --bleu-clair: #2E6EA7; /* Couleur bleu clair pour hover et accents */
+  --dore: #C59B56;        /* Couleur dorée secondaire */
+  --fond: #F8FAFC;        /* Couleur de fond principale */
+  --blanc: #FFFFFF;       /* Blanc pur */
+  --texte: #1E293B;       /* Couleur principale du texte */
+  --muted: #64748b;       /* Couleur grisée pour texte secondaire / hints */
+  --card-shadow: 0 8px 24px rgba(13,59,102,0.06); /* Ombre des cartes */
+  --radius: 10px;         /* Rayon des bordures arrondies */
+  
+  --gap: 18px;            /* Espacement général entre éléments */
+}
+
+/* Applique le modèle de boîte border-box à tous les éléments */
+* { box-sizing: border-box; }
+
+/* Style global pour le html et le body */
+html,body{
+  height:100%; /* Hauteur complète de la fenêtre */
+  margin:2px;  /* Petite marge autour du body */
+  font-family: "Inter", "Poppins", system-ui, -apple-system, "Segoe UI", Roboto, Arial; /* Police principale */
+  color:var(--texte);  /* Couleur du texte par défaut */
+  background:var(--fond); /* Couleur de fond */
+  -webkit-font-smoothing:antialiased; /* Lissage des polices sur Safari/Chrome */
+  -moz-osx-font-smoothing:grayscale; /* Lissage sur Firefox Mac */
+}
+
+/* Container principal centré et responsive */
+.container {
+  width: min(96%, var(--max-width)); /* Largeur max 96% ou var(--max-width) */
+  margin: 0 auto; /* Centrage horizontal */
+}
+
+/* Header principal de l'application */
+.site-header {
+  background: linear-gradient(180deg, rgba(255,255,255,0.6), rgba(255,255,255,0.4)); /* Dégradé léger vertical */
+  border-bottom: 1px solid rgba(30,41,59,0.04); /* Bordure subtile en bas */
+  padding: 14px 0; /* Padding vertical */
+  position:sticky; /* Fixé en haut lors du scroll */
+  top:0; /* Positionné en haut */
+  backdrop-filter: blur(6px); /* Flou du fond derrière le header */
+  z-index: 30; /* Superposition au-dessus du contenu */
+}
+
+/* Contenu interne du header */
+.header-inner {
+  display:flex; /* Flexbox pour aligner les items */
+  align-items:center; /* Alignement vertical centré */
+  gap:20px; /* Espace entre éléments */
+  justify-content:space-between; /* Espacement entre les extrémités */
+}
+
+/* Logo dans le header */
+.logo {
+  height:52px; /* Hauteur du logo */
+  width:auto;  /* Largeur automatique pour garder les proportions */
+  display:block; /* Bloc pour éviter les espaces inline */
+}
+
+/* Navigation principale (desktop uniquement) */
+.top-nav ul {
+  list-style:none; /* Supprime les puces */
+  margin:0; /* Pas de marge */
+  padding:0; /* Pas de padding */
+  display:flex; /* Items alignés horizontalement */
+  gap:18px; /* Espace entre liens */
+  align-items:center; /* Alignement vertical centré */
+}
+
+/* Style des liens dans la navigation */
+.top-nav a {
+  color:var(--texte); /* Couleur du texte */
+  text-decoration:none; /* Pas de soulignement */
+  font-weight:600; /* Texte semi-gras */
+  padding:8px 10px; /* Padding interne */
+  border-radius:8px; /* Bord arrondi */
+}
+
+/* Etat actif ou hover d’un lien */
+.top-nav a.active, .top-nav a:hover {
+  color:var(--bleu-fonce); /* Texte bleu foncé */
+  background: rgba(13,59,102,0.04); /* Fond léger sur hover */
+}
+
+/* Header spécifique à l’application (style dashboard) */
+.app-header {
+  max-width:auto;
+  display:flex; /* Flexbox horizontal */
+  justify-content:space-between; /* Espacement extrémités */
+  gap:20px; /* Espace entre items */
+  align-items:center; /* Alignement vertical centré */
+  padding: 22px 0; /* Padding vertical */
+}
+
+/* Titre principal de l’app-header */
+.app-header h1 {
+  margin:0; /* Pas de marge */
+  font-size:22px; /* Taille du texte */
+  color:var(--white); /* Couleur bleu foncé */
+}
+
+/* Texte secondaire / lead */
+.lead {
+  margin:8px 0 0 0; /* Marge en haut seulement */
+  color:var(--white); /* Couleur grisée */
+  max-width:700px; /* Largeur max du texte */
+}
+
+.intro.app-header {
+  display: flex;              /* Flex container */
+    justify-content: center;    /* Centre horizontalement le div */
+    align-items: center;        /* Centre verticalement */
+    text-align: center;         /* Centre le texte à l’intérieur du div */
+    /* Image de fond */
+    background-image: url('img/free.png'); /* Remplace par ton image */
+    background-size: cover; /* L'image couvre toute la section (largeur + hauteur) */
+    background-position: center center; /* Centre l'image */
+    background-repeat: no-repeat; /* Pas de répétition */
+    
+    /* Overlay sombre pour lisibilité */
+    position: relative; 
+    color: #FFFFFF; /* Texte blanc */
+    padding: 60px 20px; /* Tu peux ajuster 20px horizontal si besoin */
+}
+
+/* Superposition sombre */
+.intro.app-header::before {
+    content: "";
+    position: absolute;
+    inset: 0; /* couvre toute la section */
+    background: rgba(0,0,0,0.45); /* noir semi-transparent */
+    z-index: 0;
+}
+
+/* Texte au-dessus de l'overlay */
+.intro.app-header > div {
+    position: relative;
+    z-index: 1;
+}
+
+
+
+/* === BARRE DE RECHERCHE MODERNE === */
+.search-section {
+    display: flex; /* Flexbox horizontal */
+    justify-content: center; /* Centré horizontalement */
+    align-items: center; /* Centré verticalement */
+    padding: 30px 10px; /* Padding interne */
+    background: linear-gradient(135deg, #f8f9fa, #e9ecef); /* Dégradé léger */
+    border-bottom: 1px solid #ddd; /* Bordure subtile */
+}
+
+/* Container du champ de recherche */
+.search-container {
+    position: relative; /* Pour positionner le bouton absolu */
+    width: 100%; /* Largeur complète */
+    max-width: 550px; /* Largeur maximale */
+}
+
+/* Champ texte de recherche */
+#search-input {
+    width: 100%; /* Pleine largeur */
+    padding: 12px 45px 12px 20px; /* Padding interne (droite pour bouton) */
+    font-size: 16px; /* Taille du texte */
+    border: 1px solid #ccc; /* Bordure grise */
+    border-radius: 30px; /* Rond complet */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05); /* Ombre légère */
+    outline: none; /* Supprime contour par défaut */
+    transition: all 0.2s ease; /* Transition douce pour hover/focus */
+    background-color: #fff; /* Fond blanc */
+}
+
+/* Focus du champ recherche */
+#search-input:focus {
+    border-color: #007bff; /* Bordure bleue */
+    box-shadow: 0 0 8px rgba(0, 123, 255, 0.2); /* Ombre bleutée */
+}
+
+/* Bouton recherche */
+#search-button {
+    position: absolute; /* Position absolue par rapport au container */
+    right: 10px; /* Décalage à droite */
+    top: 50%; /* Centré vertical */
+    transform: translateY(-50%); /* Ajuste exactement centré */
+    background: none; /* Pas de fond */
+    border: none; /* Pas de bordure */
+    cursor: pointer; /* Curseur main */
+    outline: none; /* Pas de contour focus */
+    padding: 5px; /* Padding interne */
+    transition: transform 0.2s ease; /* Transition pour animation hover */
+}
+
+/* Effet hover sur le bouton recherche */
+#search-button:hover {
+    transform: translateY(-50%) scale(1.1); /* Agrandissement léger */
+}
+
+/* Image dans le bouton recherche */
+#search-button img {
+    width: 22px; /* Largeur icône */
+    height: 22px; /* Hauteur icône */
+    opacity: 0.8; /* Opacité légèrement réduite */
+}
+
+/* Liste des suggestions */
+.suggestions {
+    position: absolute; /* Position absolue */
+    top: calc(100% + 5px); /* Juste sous le champ */
+    left: 0; /* Aligné à gauche */
+    width: 100%; /* Largeur égale au champ */
+    background: #fff; /* Fond blanc */
+    border-radius: 12px; /* Bord arrondi */
+    border: 1px solid #ddd; /* Bordure grise claire */
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1); /* Ombre douce */
+    overflow-y: auto; /* Scroll si trop de suggestions */
+    max-height: 280px; /* Hauteur maximale */
+    z-index: 10; /* Superposé aux autres éléments */
+    display: none; /* Masqué par défaut */
+}
+
+/* Masquer la liste si vide */
+.suggestions:empty {
+    display: none;
+}
+
+/* Titres de section */
+.section-title {
+  margin-top: 22px; /* Marge au-dessus */
+  font-size:18px; /* Taille texte */
+  letter-spacing:0.6px; /* Espacement entre lettres */
+  color:var(--bleu-fonce); /* Couleur bleu foncé */
+  padding-bottom:8px; /* Padding en bas */
+  border-bottom:3px solid rgba(13,59,102,0.06); /* Ligne sous le titre */
+  display:inline-block; /* Pour respecter le padding/border */
+}
+
+/* Grille de cartes */
+.cards-grid {
+  display:grid; /* Utilisation du CSS Grid */
+  grid-template-columns: repeat(2, 1fr); /* 2 colonnes égales */
+  gap: var(--gap); /* Espacement entre cartes */
+  margin-top:14px; /* Marge au-dessus */
+}
+
+/* Carte individuelle */
+.doc-card {
+  background: var(--blanc); /* Fond blanc */
+  border-radius: var(--radius); /* Bord arrondi */
+  box-shadow: var(--card-shadow); /* Ombre définie */
+  display:flex; /* Flexbox vertical */
+  flex-direction:column; /* Colonne verticale */
+  justify-content:space-between; /* Espace entre contenu */
+  padding:14px; /* Padding interne */
+  min-height:84px; /* Hauteur minimale */
+  align-items:flex-start; /* Alignement gauche */
+  transition: transform .12s ease, box-shadow .12s ease; /* Transition hover */
+}
+
+/* Hover sur carte */
+.doc-card:hover {
+  transform: translateY(-6px); /* Lève la carte */
+  box-shadow: 0 14px 34px rgba(13,59,102,0.09); /* Ombre plus importante */
+}
+.documents-section{
+  margin:auto; /* 0 = marge haut/bas, 20px = marge gauche/droite */
+  max-width: 1180px;
+}
+
+
+/* Corps de la carte */
+.card-body {
+  width:100%; /* Pleine largeur */
+  display:flex; /* Flexbox horizontal */
+  align-items:center; /* Alignement vertical */
+  gap:12px; /* Espacement entre éléments */
+}
+
+/* Titre du document dans la carte */
+.doc-title {
+  margin:0; /* Pas de marge */
+  font-size:15px; /* Taille du texte */
+  color:var(--texte); /* Couleur texte */
+  line-height:1.25; /* Hauteur de ligne */
+}
+
+/* Actions à droite */
+.card-actions {
+  width:100%; /* Pleine largeur */
+  display:flex; /* Flexbox horizontal */
+  gap:10px; /* Espacement */
+  justify-content:flex-end; /* Aligné à droite */
+  margin-top:12px; /* Marge au-dessus */
+}
+
+/* Boutons dans actions */
+.card-actions .btn {
+  padding:8px 12px; /* Padding interne */
+  font-size:13px; /* Taille texte */
+}
+
+/* Bouton téléchargement */
+.btn.download {
+  background: var(--dore); /* Fond doré */
+  color: var(--blanc); /* Texte blanc */
+  border-radius:8px; /* Bord arrondi */
+  text-decoration:none; /* Pas de soulignement */
+}
+
+/* Hover bouton download */
+.btn.download:hover {
+  filter:brightness(.96); /* Légère baisse de luminosité */
+}
+
+/* Bouton outline */
+.btn.outline {
+  background:transparent; /* Fond transparent */
+  border:1px solid rgba(30,41,59,0.06); /* Bordure subtile */
+  color:var(--bleu-fonce); /* Texte bleu foncé */
+}
+
+/* Grille de liens */
+.links-grid {
+  display:grid; /* CSS Grid */
+  grid-template-columns: repeat(4, 1fr); /* 4 colonnes égales */
+  gap:14px; /* Espacement */
+  margin-top:12px; /* Marge au-dessus */
+}
+
+/* Carte de lien */
+.link-card {
+  text-decoration:none; /* Pas de soulignement */
+  border-radius:10px; /* Bord arrondi */
+  padding:12px; /* Padding interne */
+  display:block; /* Bloc pour prendre largeur */
+  background:var(--blanc); /* Fond blanc */
+  color:inherit; /* Couleur du texte héritée */
+  box-shadow: var(--card-shadow); /* Ombre légère */
+  transition: transform .15s; /* Transition hover */
+}
+
+/* Hover sur carte de lien */
+.link-card:hover {
+  transform: translateY(-6px); /* Lève la carte */
+}
+
+/* Corps de la carte de lien */
+.link-card-body {
+  display:flex; /* Flex horizontal */
+  gap:12px; /* Espacement */
+  align-items:center; /* Alignement vertical */
+}
+
+/* Icône dans la carte de lien */
+.link-card .icon {
+  font-size:20px; /* Taille de l’icône */
+  width:44px; /* Largeur bloc icône */
+  height:44px; /* Hauteur bloc icône */
+  display:flex; /* Flexbox pour centrer icône */
+  align-items:center; /* Centrage vertical */
+  justify-content:center; /* Centrage horizontal */
+  border-radius:8px; /* Bord arrondi */
+  background:linear-gradient(180deg, rgba(13,59,102,0.06), rgba(13,59,102,0.03)); /* Dégradé léger */
+}
+
+/* Texte secondaire petit */
+.small {
+  font-size:13px; /* Taille réduite */
+  color:var(--muted); /* Couleur grisée */
+  margin:4px 0 0 0; /* Marge en haut seulement */
+}
+
+/* Footer */
+.site-footer {
+  background: linear-gradient(180deg, rgba(13,59,102,0.98), rgba(13,59,102,0.98)); /* Fond bleu foncé */
+  color:var(--blanc); /* Texte blanc */
+  padding:18px 0; /* Padding vertical */
+  margin-top:28px; /* Marge au-dessus */
+}
+
+/* Contenu interne du footer */
+.footer-inner {
+  display:flex; /* Flex horizontal */
+  gap:12px; /* Espacement */
+  align-items:center; /* Alignement vertical */
+  justify-content:space-between; /* Espacement extrémités */
+  flex-wrap:wrap; /* Permet retour à la ligne si trop étroit */
+}
+
+/* Liens du footer */
+.footer-links {
+  font-size:14px; /* Taille texte */
+  color:rgba(255,255,255,0.9); /* Couleur blanc légèrement transparente */
+}
+
+/* Liens individuels */
+.footer-links a {
+  color:rgba(255,255,255,0.95); /* Légèrement plus opaque */
+  text-decoration:none; /* Pas de soulignement */
+  margin-right:8px; /* Espacement droit */
+}
+
+/* Icônes sociales */
+.social-icons {
+  display:flex; /* Flex horizontal */
+  gap:10px; /* Espacement */
+  align-items:center; /* Centrage vertical */
+}
+
+/* Images des icônes sociales */
+.social-icons img {
+  width:28px; /* Largeur icône */
+  height:28px; /* Hauteur icône */
+  display:block; /* Bloc */
+  object-fit:contain; /* Contenir l’image */
+  filter: none; /* Pas de filtre */
+}
+
+/* Modal */
+.modal {
+  position:fixed; /* Fixé sur la fenêtre */
+  inset:0; /* Plein écran */
+  display:none; /* Masqué par défaut */
+  align-items:center; /* Centré vertical */
+  justify-content:center; /* Centré horizontal */
+  background:rgba(2,6,23,0.45); /* Fond semi-transparent */
+  z-index:1000; /* Superposé très haut */
+  padding:20px; /* Padding interne */
+}
+
+/* Affichage modal quand visible */
+.modal[aria-hidden="false"] {
+  display:flex; /* Flex pour centrer contenu */
+}
+
+/* Contenu de la modal */
+.modal-content {
+  background:var(--blanc); /* Fond blanc */
+  border-radius:12px; /* Bord arrondi */
+  width: min(96%, 900px); /* Largeur responsive max 900px */
+  max-height:90vh; /* Hauteur max 90% de la fenêtre */
+  overflow:auto; /* Scroll si trop grand */
+  padding:12px; /* Padding interne */
+  position:relative; /* Pour positionner le bouton close */
+}
+
+/* Bouton de fermeture modal */
+.modal-close {
+  position:absolute; /* Position absolue */
+  right:12px; /* Décalage à droite */
+  top:8px; /* Décalage en haut */
+  border:none; /* Pas de bordure */
+  background:transparent; /* Fond transparent */
+  font-size:26px; /* Taille texte */
+  cursor:pointer; /* Curseur main */
+}
+
+/* Aide pour l’accessibilité */
+.visually-hidden {
+  position:absolute !important; /* Absolu pour screen reader */
+  height:1px; width:1px; /* Très petit */
+  overflow:hidden; /* Masqué */
+  clip:rect(1px,1px,1px,1px); /* Masqué */
+  white-space:nowrap; /* Une seule ligne */
+}
+
+@media all and (max-width: 1024px) {
+  .documents-section{
+  margin:10px; /* 0 = marge haut/bas, 20px = marge gauche/droite */
+ 
+}
+    .search-section {
+        padding: 20px; /* Réduit le padding de la section recherche pour écrans moyens */
+    }
+    #search-input {
+        font-size: 15px; /* Taille de texte légèrement plus petite sur tablette */
+    }
+    .cards-grid {
+        grid-template-columns: repeat(2, 1fr); /* Conserve 2 colonnes pour cartes sur tablette */
+    }
+    .links-grid {
+        grid-template-columns: repeat(2, 1fr); /* Réduit à 2 colonnes pour liens */
+    }
+    .top-nav ul {
+        display:none; /* Masque la navigation principale, on prévoit un burger menu */
+    }
+    .app-header {
+        flex-direction:column; /* Empile les éléments verticalement */
+        align-items:flex-start; /* Aligne les éléments à gauche */
+        gap:12px; /* Réduit l’espace entre éléments */
+    }
+    .search-row {
+        flex-direction: column; /* Les champs de recherche s’empilent verticalement */
+        align-items:stretch; /* Champs prennent toute la largeur disponible */
+        gap:8px; /* Espacement réduit entre champs */
+    }
+}
+
+/* Mobile narrow : petits écrans / téléphones */
+@media all and (max-width: 640px) {
+    .cards-grid {
+        grid-template-columns: 1fr; /* Une seule colonne pour cartes */
+    }
+    .links-grid {
+        grid-template-columns: 1fr; /* Une seule colonne pour liens */
+    }
+    .app-header h1 {
+        font-size:18px; /* Réduction du titre principal */
+    }
+    .card-actions {
+        justify-content:space-between; /* Espace entre boutons sur une ligne */
+        width:100%; /* Pleine largeur */
+    }
+    .quick-actions {
+        width:100%; /* Pleine largeur pour actions rapides */
+        justify-content:flex-start; /* Alignement à gauche */
+        gap:8px; /* Espacement réduit */
+    }
+    .preview-btn {
+        display:none; /* Cache le bouton preview sur très petits écrans */
+    }
+}

@@ -1,0 +1,245 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Espace Syndical — LUMESYS</title>
+
+  <!-- Feuille de style -->
+  <link rel="stylesheet" href="style-syndicalistes.css">
+
+  <!-- Favicon (optionnel) -->
+  <link rel="icon" href="images/favicon.ico" />
+</head>
+<body>
+  <header class="site-header" role="banner">
+    <div class="container header-inner">
+      <a href="index.html" class="brand" aria-label="Retour à Lumesys">
+        <img src="logo/Lumesys.png" alt="Logo Lumesys" class="logo">
+      </a>
+
+      <nav class="top-nav" aria-label="Navigation secondaire">
+        <ul>
+          <li><a href="index.html">Accueil</a></li>
+          <li><a href="syndicalistes.html" class="active">Documents</a></li>
+          <li><a href="#liens-utiles">Liens utiles</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container app-shell" id="main" role="main">
+    <!-- Dashboard-like header -->
+    <section class="intro app-header">
+      <div>
+        <h1>Espace Syndical — LUMESYS</h1>
+        <p class="lead">Accédez rapidement aux textes officiels : lois, décrets, arrêtés et statuts. Interface pensée comme une application — claire, rapide et accessible sur mobile.</p>
+      </div>
+      
+    </section>
+
+    <!-- Barre de recherche moderne -->
+<section class="search-section">
+  <div class="search-container">
+    <input type="text" id="search-input" placeholder="Rechercher..." autocomplete="off">
+    <button id="search-button">
+      <img src="images/search.png" alt="Rechercher">
+    </button>
+
+    <div class="suggestions" id="suggestions">
+      <!-- Exemple de liens de suggestion -->
+      <a href="#lois" >Loi sur l’énergie solaire</a>
+      <a href="#decret" >Décret d’application</a>
+      <a href="#arrete" >Arrêté ministériel</a>
+      <a href="#ordonnance" >Ordonnance sur l’électricité</a>
+      <a href="#statut" >Statuts d’entreprise énergétique</a>
+    </div>
+  </div>
+</section>
+
+ <div  class="documents-section">
+    <!-- Documents : chaque catégorie a son titre -->
+    <section id="documents" aria-labelledby="documents-title">
+      <h2 id="documents-title" class="section-title">LOIS</h2>
+      <div id="documents-grid-lois" class="cards-grid" aria-live="polite">
+        <!-- Cartes LOIS (Titre + Télécharger) -->
+        <article class="doc-card" data-type="loi" data-year="2021" data-title="Loi N° 02-053 portant statut général des fonctionnaires">
+          <div class="card-body">
+            <h3 class="doc-title">Loi N° 02-053 portant statut général des fonctionnaires</h3>
+          </div>
+          <div class="card-actions">
+            <a class="btn download" href="documents/loi-02-053.pdf" download> Télécharger</a>
+            
+          </div>
+        </article>
+
+        <article class="doc-card" data-type="loi" data-year="1992" data-title="Loi N° 92-020 - Code du Travail">
+          <div class="card-body">
+            <h3 class="doc-title">Loi N° 92-020 portant Code du Travail</h3>
+          </div>
+          <div class="card-actions">
+            <a class="btn download" href="documents/loi-92-020.pdf" download> Télécharger</a>
+           
+          </div>
+        </article>
+
+        <!-- Ajoute d'autres lois ici -->
+      </div>
+
+      <h2 class="section-title">ORDONNANCES</h2>
+      <div id="documents-grid-ordonnances" class="cards-grid" aria-live="polite">
+        <article class="doc-card" data-type="ordonnance" data-year="2015" data-title="Ordonnance relative à ...">
+          <div class="card-body">
+            <h3 class="doc-title">Ordonnance N° 2015-XXX relative à ...</h3>
+          </div>
+          <div class="card-actions">
+            <a class="btn download" href="documents/ordonnance-2015.pdf" download> Télécharger</a>
+            
+          </div>
+        </article>
+        <!-- autres ordonnances -->
+      </div>
+
+      <h2 class="section-title">DÉCRETS</h2>
+      <div id="documents-grid-decrets" class="cards-grid" aria-live="polite">
+        <article class="doc-card" data-type="decret" data-year="2022" data-title="Décret d'application 2022">
+          <div class="card-body">
+            <h3 class="doc-title">Décret d'application 2022</h3>
+          </div>
+          <div class="card-actions">
+            <a class="btn download" href="documents/decret-2022.pdf" download> Télécharger</a>
+           
+          </div>
+        </article>
+      </div>
+
+      <h2 class="section-title">ARRÊTÉS</h2>
+      <div id="documents-grid-arretes" class="cards-grid" aria-live="polite">
+        <article class="doc-card" data-type="arrete" data-year="2019" data-title="Arrêté ministériel 2019">
+          <div class="card-body">
+            <h3 class="doc-title">Arrêté ministériel 2019</h3>
+          </div>
+          <div class="card-actions">
+            <a class="btn download" href="documents/arrete-2019.pdf" download> Télécharger</a>
+           
+          </div>
+        </article>
+      </div>
+
+      <h2 class="section-title">STATUTS</h2>
+      <div id="documents-grid-statuts" class="cards-grid" aria-live="polite">
+        <article class="doc-card" data-type="statut" data-year="2018" data-title="Statuts du Syndicat Local">
+          <div class="card-body">
+            <h3 class="doc-title">Statuts du Syndicat Local</h3>
+          </div>
+          <div class="card-actions">
+            <a class="btn download" href="documents/statuts-syndicat.pdf" download> Télécharger</a>
+            
+          </div>
+        </article>
+      </div>
+
+      <!-- Aperçu modal -->
+      <div id="preview-modal" class="modal" aria-hidden="true" role="dialog" aria-label="Aperçu du document">
+        <div class="modal-content">
+          <button id="close-modal" class="modal-close" aria-label="Fermer l'aperçu">&times;</button>
+          <div id="preview-container" class="preview-container"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Liens utiles -->
+    <section id="liens-utiles" class="links-section" aria-labelledby="liens-title">
+      <h2 id="liens-title" class="section-title">Liens utiles</h2>
+      <div class="links-grid">
+        <a class="link-card" href="https://www.example-ministere-travail.gov" target="_blank" rel="noopener noreferrer">
+          <div class="link-card-body">
+            <div class="icon">⚖️</div>
+            <div>
+              <h3>Ministère du Travail</h3>
+              <p class="small">Textes et démarches administratives</p>
+            </div>
+          </div>
+        </a>
+
+        <a class="link-card" href="https://www.example-ministere-education.gov" target="_blank" rel="noopener noreferrer">
+          <div class="link-card-body">
+            <div class="icon">🏫</div>
+            <div>
+              <h3>Ministère de l'Éducation</h3>
+              <p class="small">Réglementations pour le secteur éducatif</p>
+            </div>
+          </div>
+        </a>
+
+        <a class="link-card" href="https://cnps.example" target="_blank" rel="noopener noreferrer">
+          <div class="link-card-body">
+            <div class="icon">🧾</div>
+            <div>
+              <h3>CNPS</h3>
+              <p class="small">Sécurité sociale et cotisations</p>
+            </div>
+          </div>
+        </a>
+
+        <a class="link-card" href="https://actualites-syndicales.example" target="_blank" rel="noopener noreferrer">
+          <div class="link-card-body">
+            <div class="icon">📰</div>
+            <div>
+              <h3>Actualités syndicales</h3>
+              <p class="small">Communiqués et news</p>
+            </div>
+          </div>
+        </a>
+      </div>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact" class="contact-section" aria-labelledby="contact-title">
+      <h2 id="contact-title" class="section-title">Contact</h2>
+      <p>Pour toute question ou contribution, contacte l'administrateur de la page.</p>
+      <p>Email : <a href="mailto:contact@lumesys.example">contact@lumesys.example</a></p>
+    </section>
+
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer" role="contentinfo">
+    <div class="container footer-inner">
+      <div class="footer-links">
+        <a href="privacy-policy.html" class="polisecu" title="Politique de confidentialité du site">Politique de confidentialité</a> |
+        <a href="terms-of-service.html" class="polisecu" title="Conditions de securites">Conditions de sécurité</a>
+      </div>
+
+      <div class="social-icons">
+        <a href="https://wa.me/22376856631?text=Bonjour!%20Je%20souhaite%20en%20savoir%20plus%20sur%20votre%20site%20web."
+           target="_blank" class="social-button whatsapp-button" aria-label="Contactez-nous sur WhatsApp">
+          <img src="icone/wa.png" alt="WhatsApp" />
+        </a>
+
+        <a href="https://web.facebook.com/ibrahimdjime.diakite.3" target="_blank" class="social-button facebook-button" aria-label="Partager sur Facebook">
+          <img src="icone/facebook.png" alt="Facebook" />
+        </a>
+
+        <a href="https://twitter.com/DiakitIbra19810" target="_blank" class="social-button twitter-button" aria-label="Partager sur Twitter">
+          <img src="icone/x.png" alt="Twitter" />
+        </a>
+
+        <a href="https://www.instagram.com/ibrahim_djime_diakite" target="_blank" class="social-button instagram-button" aria-label="Voir Instagram">
+          <img src="icone/insta.png" alt="Instagram" />
+        </a>
+
+        <a href="https://www.tiktok.com/@ibradiak0" target="_blank" class="social-button tiktok-button" aria-label="Partager sur TikTok">
+          <img src="icone/tiktok.png" alt="TikTok" />
+        </a>
+      </div>
+
+      <p class="copyright">&copy; 2025 Ibrahim Djimé Diakité. Tous droits réservés.</p>
+    </div>
+  </footer>
+
+  <script src="syndicalistes.js" defer></script>
+</body>
+</html>
