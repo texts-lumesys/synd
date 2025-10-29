@@ -1,11 +1,110 @@
-/* style-syndicalistes.css
-   Palette professionnelle et claire inspirée du logo Lumesys
-   - Bleu : #0D3B66 (accent)
-   - Bleu clair : #2E6EA7 (hover / accents)
-   - Doré doux : #C59B56 (accent secondaire)
-   - Fond très clair : #F8FAFC
-   - Texte sombre : #1E293B
-*/
+/* Définir les polices personnalisées */
+@font-face {
+    font-family: 'INGAME';
+    src: url('pol/INGAME.ttf');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'Robot-Rebels';
+    src: url('pol/Robot-Rebels.ttf');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'Roboto-Regular';
+    src: url('pol/Roboto-Regular.ttf');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'Boul';
+    src: url('pol/Boul.otf');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'PlayfairDisplaySC-Bold';
+    src: url('pol/PlayfairDisplaySC-Bold.ttf');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'Sobatyan-Regular';
+    src: url('pol/Sobatyan-Regular.otf');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'Roboto-MediumItalic';
+    src: url('pol/Roboto-MediumItalic.ttf');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'MilestoneBrush';
+    src: url('pol/MilestoneBrush.otf');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'Rostack';
+    src: url('pol/Rostack.otf');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'Roboto-Black';
+    src: url('pol/Roboto-Black.ttf');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'Matemasie-Regular';
+    src: url('pol/Matemasie-Regular.ttf');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'NewAmsterdam-Regular';
+    src: url('pol/NewAmsterdam-Regular.ttf');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'NerkoOne-Regular';
+    src: url('pol/NerkoOne-Regular.ttf');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'Roboto-Bold';
+    src: url('pol/Roboto-Bold.ttf');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'DMSerifText-Regular';
+    src: url('pol/DMSerifText-Regular.ttf');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
 
 /* Définition des variables CSS globales pour les couleurs et mesures */
 :root{
@@ -29,7 +128,7 @@
 html,body{
   height:100%; /* Hauteur complète de la fenêtre */
   margin:2px;  /* Petite marge autour du body */
-  font-family: "Inter", "Poppins", system-ui, -apple-system, "Segoe UI", Roboto, Arial; /* Police principale */
+  font-family: "Inter", "Poppins", system-ui, -apple-system, "Segoe UI", 'Roboto', 'Roboto-Regular',Arial, sans-serif; /* Police principale */
   color:var(--texte);  /* Couleur du texte par défaut */
   background:var(--fond); /* Couleur de fond */
   -webkit-font-smoothing:antialiased; /* Lissage des polices sur Safari/Chrome */
@@ -380,51 +479,83 @@ html,body{
   margin:4px 0 0 0; /* Marge en haut seulement */
 }
 
-/* Footer */
+/* === Footer principal === */
 .site-footer {
-  background: linear-gradient(180deg, rgba(13,59,102,0.98), rgba(13,59,102,0.98)); /* Fond bleu foncé */
-  color:var(--blanc); /* Texte blanc */
-  padding:18px 0; /* Padding vertical */
-  margin-top:28px; /* Marge au-dessus */
+  background: linear-gradient(180deg, rgba(13,59,102,0.98), rgba(13,59,102,0.98));
+  color: var(--blanc);
+  padding: 30px 0;
+  margin-top: 40px;
+  font-size: 14px;
 }
 
-/* Contenu interne du footer */
+/* Conteneur interne */
 .footer-inner {
-  display:flex; /* Flex horizontal */
-  gap:12px; /* Espacement */
-  align-items:center; /* Alignement vertical */
-  justify-content:space-between; /* Espacement extrémités */
-  flex-wrap:wrap; /* Permet retour à la ligne si trop étroit */
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 24px;
+  align-items: start;
+  text-align: center;
 }
 
-/* Liens du footer */
+/* Titres */
+.footer-title {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 10px;
+  color: #ffffff;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Liens */
 .footer-links {
-  font-size:14px; /* Taille texte */
-  color:rgba(255,255,255,0.9); /* Couleur blanc légèrement transparente */
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
 }
 
-/* Liens individuels */
 .footer-links a {
-  color:rgba(255,255,255,0.95); /* Légèrement plus opaque */
-  text-decoration:none; /* Pas de soulignement */
-  margin-right:8px; /* Espacement droit */
+  color: rgba(255,255,255,0.9);
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.footer-links a:hover {
+  color: #00c8ff;
 }
 
 /* Icônes sociales */
 .social-icons {
-  display:flex; /* Flex horizontal */
-  gap:10px; /* Espacement */
-  align-items:center; /* Centrage vertical */
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 8px;
 }
 
-/* Images des icônes sociales */
 .social-icons img {
-  width:28px; /* Largeur icône */
-  height:28px; /* Hauteur icône */
-  display:block; /* Bloc */
-  object-fit:contain; /* Contenir l’image */
-  filter: none; /* Pas de filtre */
+  width: 30px;
+  height: 30px;
+  transition: transform 0.3s ease, filter 0.3s ease;
+  border-radius: 6px;
 }
+
+.social-icons img:hover {
+  transform: scale(1.15);
+  filter: brightness(1.2);
+}
+
+/* Copyright */
+.footer-right {
+  text-align: center;
+}
+
+.footer-right p {
+  margin: 0;
+  line-height: 1.5;
+  color: rgba(255,255,255,0.8);
+}
+
+
 
 /* Modal */
 .modal {
@@ -475,6 +606,15 @@ html,body{
 }
 
 @media all and (max-width: 1024px) {
+  .doc-card {
+    word-wrap: break-word;       /* Permet de couper les mots longs */
+    overflow-wrap: break-word;   /* Compatibilité avec tous navigateurs */
+  }
+
+  .doc-card .doc-title {
+    white-space: normal;         /* Le texte passe à la ligne si nécessaire */
+    word-break: break-word;      /* Coupe les mots très longs si besoin */
+  }
   .documents-section{
   margin:10px; /* 0 = marge haut/bas, 20px = marge gauche/droite */
  
@@ -504,6 +644,14 @@ html,body{
         align-items:stretch; /* Champs prennent toute la largeur disponible */
         gap:8px; /* Espacement réduit entre champs */
     }
+
+    .footer-inner {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+  .social-icons {
+    justify-content: center;
+  }
 }
 
 /* Mobile narrow : petits écrans / téléphones */
