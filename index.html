@@ -21,7 +21,7 @@
       <nav class="top-nav" aria-label="Navigation secondaire">
         <ul>
           <li><a href="index.html">Accueil</a></li>
-          <li><a href="syndicalistes.html" class="active">Documents</a></li>
+          <li><a href="#documents-grid-lois" class="active">Documents</a></li>
           <li><a href="#liens-utiles">Liens utiles</a></li>
           <li><a href="#contact">Contact</a></li>
         </ul>
@@ -44,7 +44,7 @@
   <div class="search-container">
     <input type="text" id="search-input" placeholder="Rechercher..." autocomplete="off">
     <button id="search-button">
-      <img src="images/search.png" alt="Rechercher">
+      <img src="img/search.png" alt="Rechercher">
     </button>
 
     <div class="suggestions" id="suggestions">
@@ -69,11 +69,219 @@
 <a href= "#Ordonnance-019-Modification-Loi-02-053-Statut-General-Fonctionnaires">Ordonnance-019-Modification-Loi-02-053-Statut-General-Fonctionnaires.pdf</a>
 <a href= "#Ordonnance-019-Modification-Loi-02-053-Statut-General-Fonctionnaires-bis">Ordonnance-019-Modification-Loi-02-053-Statut-General-Fonctionnaires (bis).pdf</a>
 
+<a href= "#decret_2023_0679_pt_rm_operation_identification_agents_fonction_publique">Décret 2023-0679 PT-RM opération identification agents fonction publique</a>
+
+<a href= "#decret_application_loi_2018_007_du_16_jan_2018">Décret d'application de la loi 2018-007 du 16 jan 2018</a>
+
+<a href= "#decret_service_minimum">Décret de service minimum</a>
+
+<a href= "#decret_2025_0479_pt_rm_24_juillet_2025_majoration_salaire">Décret N°2025-0479 PT-RM du 24 juillet 2025 portant majoration salaire</a>
+
+<a href= "#decret_admission_retraite_off_2023">Décret portant admission à la retraite OFF 2023</a>
+
+<a href= "#decret_majoration_taux_indemnites_speciales">Décret portant majoration des taux d'indemnités spéciales</a>
+
+<a href= "#decret_nomination_membres_gouvernement">Décret portant nomination des membres du gouvernement</a>
+
+<a href= "#decret_2024_0673_port_abrogation_cabinet_premier">Décret n°2024-0673 port abrogation Cabinet Premier</a>
+
+<a href= "#decret_2024_0674_port_abrogation_cabinet_premier">Décret n°2024-0674 port abrogation Cabinet Premier</a>
+
+<a href= "#decret_2025_0028_fixant_prix_cession_redevances_terrains">Décret n°2025-0028 fixant les prix de cession et redevances terrains</a>
+
+<a href= "#decret_2025_0479_du_24_07_2025_majoration_salaire">Décret N°2025-0479 du 24-07-2025 majoration salaire</a>
+
+<a href= "#decret_05_164_modalites_application_statut_general_fonctionnaires">Décret 05-164 Modalités Application Statut Général Fonctionnaires</a>
+
+<a href= "#decret_0067_modalites_application_statut_personnel_enseignant">Décret 0067 Modalités Application Statut Personnel Enseignant</a>
+
+<a href= "#decret_modalites_application_statut_general_fonction_publique">Décret fixant les modalités d'application du statut général de la fonction publique</a>
+
+
+
+<a href= "#arrete_0142_modalite_appel_candidature_directeur_general_men">Arrêté 0142 Modalité Appel Candidature Directeur Général MEN</a>
+
+<a href= "#arrete_3282_conditions_modalites_mobilite_mise_en_conge_men">Arrêté 3282 Conditions Modalités Mobilité Mise En Congé MEN</a>
+
+<a href= "#arrete_3458_modification_arrete_3282_men">Arrêté 3458 Modification Arrêté 3282 MEN</a>
+
+
+
     </div>
   </div>
 </section>
 
+
+
  <div  class="documents-section">
+
+          <p id="status">Non connecté</p>
+<button id="loginBtn">Se connecter</button>
+<button id="logoutBtn">Se déconnecter</button>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js";
+  import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-auth.js";
+  import { getFirestore, doc, setDoc, getDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-firestore.js";
+
+  // === Initialisation Firebase ===
+  const firebaseConfig = {
+    apiKey: "AIzaSyAClwRQe3g4Cg9CAsn28l_sAihwlMQtGUI",
+    authDomain: "lumina-analytics.firebaseapp.com",
+    projectId: "lumina-analytics",
+    storageBucket: "lumina-analytics.appspot.com",
+    messagingSenderId: "239329398532",
+    appId: "1:239329398532:web:2f68b196df0c4e6400ca51",
+    measurementId: "G-J7LLPRXLJH"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const provider = new GoogleAuthProvider();
+  const db = getFirestore(app);
+
+  const loginBtn = document.getElementById("loginBtn");
+  const logoutBtn = document.getElementById("logoutBtn");
+  const status = document.getElementById("status");
+
+  // === Fonction pour récupérer la localisation ===
+  async function getUserLocation() {
+    try {
+      const response = await fetch("https://ipapi.co/json/");
+      const data = await response.json();
+      return {
+        pays: data.country_name,
+        ville: data.city,
+        region: data.region,
+        ip: data.ip
+      };
+    } catch (e) {
+      console.error("Erreur localisation:", e);
+      return { pays: "Inconnu", ville: "Inconnue", region: "Inconnue", ip: "Inconnue" };
+    }
+  }
+
+  // === Fonction overlay connexion ===
+  function showOverlay() {
+    if (document.getElementById("overlayConnexion")) return;
+
+    const overlay = document.createElement('div');
+    overlay.id = "overlayConnexion";
+    overlay.style.cssText = `
+      position:fixed; top:0; left:0; width:100%; height:100%; 
+      background: rgba(0,0,0,0.85); display:flex; flex-direction:column; 
+      justify-content:center; align-items:center; color:white; z-index:9999;
+    `;
+    overlay.innerHTML = `
+      <h2>Connexion requise</h2>
+      <p>Vous avez atteint votre limite. Veuillez vous connecter ou quitter.</p>
+      <button id="loginBtnOverlay">Se connecter</button>
+      <button id="quitBtnOverlay">Quitter</button>
+    `;
+    document.body.appendChild(overlay);
+
+    document.getElementById('loginBtnOverlay').addEventListener('click', () => {
+      signInWithPopup(auth, provider).catch(e => console.error(e));
+    });
+    document.getElementById('quitBtnOverlay').addEventListener('click', () => {
+      document.body.removeChild(overlay);
+      window.location.href = 'https://www.google.com';
+    });
+  }
+
+  // === Supprimer overlay s'il existe ===
+  function removeOverlay() {
+    const overlay = document.getElementById("overlayConnexion");
+    if (overlay) overlay.remove();
+  }
+
+  // === Gestion visites ===
+  const pageKey = "visites_" + window.location.pathname;
+  const MAX_VISITES = 2;
+  let visites = parseInt(localStorage.getItem(pageKey)) || 0;
+  visites++;
+  localStorage.setItem(pageKey, visites);
+
+  // === Gestion téléchargements ===
+  const downloadKey = "telechargements_gratuits";
+  const MAX_DOWNLOADS = 3;
+  let downloads = parseInt(localStorage.getItem(downloadKey)) || 0;
+
+  document.querySelectorAll('a[target="_blank"]').forEach(link => {
+    link.addEventListener('click', (e) => {
+      onAuthStateChanged(auth, (user) => {
+        if (!user && downloads >= MAX_DOWNLOADS) {
+          e.preventDefault();
+          showOverlay();
+        } else {
+          downloads++;
+          localStorage.setItem(downloadKey, downloads);
+        }
+      });
+    });
+  });
+
+  // === Suivi état connexion avec nombreConnexions et badge ===
+  onAuthStateChanged(auth, async (user) => {
+    if (user) {
+      status.innerText = `✅ Connecté : ${user.displayName}`;
+      loginBtn.style.display = "none";
+      logoutBtn.style.display = "inline";
+      removeOverlay();
+
+      // 🔹 Récupérer localisation
+      const loc = await getUserLocation();
+
+      // 🔹 Récupérer l'ancien doc utilisateur s'il existe
+      const userRef = doc(db, "utilisateurs", user.email);
+      const userSnap = await getDoc(userRef);
+      let nombreConnexions = 1; // par défaut première connexion
+      let badge = "Nouveau";
+
+      if (userSnap.exists()) {
+        const data = userSnap.data();
+        nombreConnexions = (data.nombreConnexions || 0) + 1;
+
+        // Définition du badge selon règles
+        if (nombreConnexions >= 50) badge = "Contributeur";
+        else if (nombreConnexions >= 10) badge = "Fidèle";
+        else badge = "Nouveau";
+      }
+
+      // 🔹 Mise à jour Firestore
+      await setDoc(userRef, {
+        nom: user.displayName,
+        email: user.email,
+        photo: user.photoURL,
+        derniereConnexion: serverTimestamp(),
+        localisation: loc,
+        nombreConnexions,
+        badge
+      }, { merge: true });
+
+      console.log("Utilisateur enregistré :", user.email, loc, nombreConnexions, badge);
+
+    } else {
+      status.innerText = "❌ Non connecté";
+      loginBtn.style.display = "inline";
+      logoutBtn.style.display = "none";
+
+      if (visites > MAX_VISITES || downloads >= MAX_DOWNLOADS) {
+        showOverlay();
+      }
+    }
+  });
+
+  // === Connexion / Déconnexion ===
+  loginBtn.addEventListener("click", () => {
+    signInWithPopup(auth, provider).catch(e => console.error(e));
+  });
+
+  logoutBtn.addEventListener("click", () => {
+    signOut(auth).catch(e => console.error(e));
+  });
+</script>
+
     <!-- Documents : chaque catégorie a son titre -->
     <section id="documents" aria-labelledby="documents-title">
       <h2 id="documents-title" class="section-title">LOIS</h2>
@@ -86,7 +294,7 @@
     <h3 class="doc-title">LOI N° 2919 074 DU 24 DEC PORTANT AGE DE LA RETRAITE DANS LE CO...</h3>
   </div>
   <div class="card-actions">
-    <a class="btn download" href="LOI_N°_2919_074_DU_24_DEC_PORTANT_AGE_DE_LA_RETRAITE_DANS_LE_CO" download>Télécharger</a>
+    <a class="btn download" href="https://drive.google.com/file/d/1sI_kfxePRnsE5PYUMLFymwfGLOjTTcrj/view?usp=sharing" download>Télécharger</a>
   </div>
 </article>
 
@@ -95,7 +303,7 @@
     <h3 class="doc-title">Loi No.2018-007 du 16-01-2018 Statut Personnel Enseignant</h3>
   </div>
   <div class="card-actions">
-    <a class="btn download" href="Loi_No.2018-007_du_16-01-2018_Statut_Personnel_Enseignant" download>Télécharger</a>
+    <a class="btn download" href="https://drive.google.com/file/d/1oU6WEnMdCKjFlGMM2eleZ6zylVIgNsSj/view?usp=sharing" download>Télécharger</a>
   </div>
 </article>
 
@@ -104,7 +312,7 @@
     <h3 class="doc-title">Loi_Creation_N°2012_044_ENSup.pdf</h3>
   </div>
   <div class="card-actions">
-    <a class="btn download" href="Loi_Creation_N°2012_044_ENSup" download>Télécharger</a>
+    <a class="btn download" href="https://drive.google.com/file/d/1LQ2sEU4yAAWXAsXU0eoPgV9ax4TeKct2/view?usp=sharing" download>Télécharger</a>
   </div>
 </article>
 
@@ -113,7 +321,7 @@
     <h3 class="doc-title">Loi-02-053-Statut-General-Fonctionnaires.pdf</h3>
   </div>
   <div class="card-actions">
-    <a class="btn download" href="Loi-02-053-Statut-General-Fonctionnaires" download>Télécharger</a>
+    <a class="btn download" href="https://drive.google.com/file/d/1qzO2-pBRigDzC75xTRVWw2hcunsXLxM8/view?usp=sharing" download>Télécharger</a>
   </div>
 </article>
 
@@ -122,7 +330,7 @@
     <h3 class="doc-title">Loi-007-Statut-Personnel-Enseignant-ES-EF-EPS-MEN.pdf</h3>
   </div>
   <div class="card-actions">
-    <a class="btn download" href="Loi-007-Statut-Personnel-Enseignant-ES-EF-EPS-MEN" download>Télécharger</a>
+    <a class="btn download" href="https://drive.google.com/file/d/1Vnef242QfWOSIVXkoH6DnRI5sNJ216QF/view?usp=sharing" download>Télécharger</a>
   </div>
 </article>
 
@@ -131,7 +339,7 @@
     <h3 class="doc-title">Loi-021-Modification-Loi-92-020-Code-Travail.pdf</h3>
   </div>
   <div class="card-actions">
-    <a class="btn download" href="Loi-021-Modification-Loi-92-020-Code-Travail" download>Télécharger</a>
+    <a class="btn download" href="https://drive.google.com/file/d/1QJkRBuIzeTK4O-sKboYUTqYbXq6GASO5/view?usp=sharing" download>Télécharger</a>
   </div>
 </article>
 
@@ -140,7 +348,7 @@
     <h3 class="doc-title">Loi-024-Modification-Loi-02-053-Statut-General-Fonctionnaires.pdf</h3>
   </div>
   <div class="card-actions">
-    <a class="btn download" href="Loi-024-Modification-Loi-02-053-Statut-General-Fonctionnaires" download>Télécharger</a>
+    <a class="btn download" href="https://drive.google.com/file/d/14AAKxKHj13mxstl7EdiIkinAU0MUVdcL/view?usp=sharing" download>Télécharger</a>
   </div>
 </article>
 
@@ -149,7 +357,7 @@
     <h3 class="doc-title">Loi-025-Modification-Loi-92-020-Code-Travail.pdf</h3>
   </div>
   <div class="card-actions">
-    <a class="btn download" href="Loi-025-Modification-Loi-92-020-Code-Travail" download>Télécharger</a>
+    <a class="btn download" href="https://drive.google.com/file/d/1e6rmmamuycF1I6HRKRhq16zyv3Fv5dLS/view?usp=sharing" download>Télécharger</a>
   </div>
 </article>
 
@@ -158,7 +366,7 @@
     <h3 class="doc-title">Loi-035-Statut-Fonctionnaires-Collectivites-Territoriales-MEN.pdf</h3>
   </div>
   <div class="card-actions">
-    <a class="btn download" href="Loi-035-Statut-Fonctionnaires-Collectivites-Territoriales-MEN" download>Télécharger</a>
+    <a class="btn download" href="https://drive.google.com/file/d/1IkzK6VZY8DelvI0SHqMjJWADAFmsrbZR/view?usp=sharing" download>Télécharger</a>
   </div>
 </article>
 
@@ -167,7 +375,7 @@
     <h3 class="doc-title">Loi-87-47-Exercice-Droit-Greve-Services-Publics.pdf</h3>
   </div>
   <div class="card-actions">
-    <a class="btn download" href="Loi-87-47-Exercice-Droit-Greve-Services-Publics" download>Télécharger</a>
+    <a class="btn download" href="https://drive.google.com/file/d/1u80B6fucPZS7hd-gDYH85o3dv3IjVjp9/view?usp=sharing" download>Télécharger</a>
   </div>
 </article>
 
@@ -176,7 +384,7 @@
     <h3 class="doc-title">Loi-92-020-Code-Travail.pdf</h3>
   </div>
   <div class="card-actions">
-    <a class="btn download" href="Loi-92-020-Code-Travail" download>Télécharger</a>
+    <a class="btn download" href="https://drive.google.com/file/d/1UpSz3O_l-mkWCzmm89MAS840lLLSMXA9/view?usp=sharing" download>Télécharger</a>
   </div>
 </article>
 
@@ -185,7 +393,7 @@
     <h3 class="doc-title">Loi-N°99-046.pdf</h3>
   </div>
   <div class="card-actions">
-    <a class="btn download" href="Loi-N°99-046" download>Télécharger</a>
+    <a class="btn download" href="https://drive.google.com/file/d/1VPfvD4JMc22vxwDuqEOMOiZX1XrRHSY9/view?usp=sharing" download>Télécharger</a>
   </div>
 </article>
 
@@ -194,7 +402,7 @@
     <h3 class="doc-title">Loi-n°2019-056-du-05-décembre-2019-portant-répression-de-la-Cybercriminalité</h3>
   </div>
   <div class="card-actions">
-    <a class="btn download" href="Loi-n°2019-056-du-05-décembre-2019-portant-rép" download>Télécharger</a>
+    <a class="btn download" href="https://drive.google.com/file/d/1bYLY8PqwFSAKFgt7X4mQwARqmlOUe4Kf/view?usp=sharing" download>Télécharger</a>
   </div>
 </article>
 
@@ -212,7 +420,7 @@
     <h3 class="doc-title">L'ordonnance portant sur l'ENSup.pdf</h3>
   </div>
   <div class="card-actions">
-    <a class="btn download" href="L_ordonnance_portant_sur_l_ENSup" download>Télécharger</a>
+    <a class="btn download" href="https://drive.google.com/file/d/1MDiPW1n5NCqj5Ro_r2fiDw-jNewuYKa9/view?usp=sharing" download>Télécharger</a>
   </div>
 </article>
 
@@ -221,7 +429,7 @@
     <h3 class="doc-title">Ordonnance_n°2025_007_portant_institution_de_la_contribution_spéciale.pdf</h3>
   </div>
   <div class="card-actions">
-    <a class="btn download" href="Ordonnance_n°2025_007_portant_institution_de_la_contribution_spéciale" download>Télécharger</a>
+    <a class="btn download" href="https://drive.google.com/file/d/1FSTTpRAowtfOwPDeXRciCWVVFR7jf88J/view?usp=sharing" download>Télécharger</a>
   </div>
 </article>
 
@@ -230,7 +438,7 @@
     <h3 class="doc-title">Ordonnance-002-Modification-Loi-007-Statut-Personnel-Enseignant.pdf</h3>
   </div>
   <div class="card-actions">
-    <a class="btn download" href="Ordonnance-002-Modification-Loi-007-Statut-Personnel-Enseignant" download>Télécharger</a>
+    <a class="btn download" href="https://drive.google.com/file/d/1ClzJtVeUej7B9bK95o4f_NhUrXv6PiiK/view?usp=sharing" download>Télécharger</a>
   </div>
 </article>
 
@@ -239,7 +447,7 @@
     <h3 class="doc-title">Ordonnance-019-Modification-Loi-02-053-Statut-General-Fonctionnaires.pdf</h3>
   </div>
   <div class="card-actions">
-    <a class="btn download" href="Ordonnance-019-Modification-Loi-02-053-Statut-General-Fonctionnaires" download>Télécharger</a>
+    <a class="btn download" href="https://drive.google.com/file/d/1Nf9rW6m4vOYb96eajuWuKdrsc1A3-SqO/view?usp=sharing" download>Télécharger</a>
   </div>
 </article>
 
@@ -248,7 +456,7 @@
     <h3 class="doc-title">Ordonnance-019-Modification-Loi-02-053-Statut-General-Fonctionnaires (bis).pdf</h3>
   </div>
   <div class="card-actions">
-    <a class="btn download" href="Ordonnance-019-Modification-Loi-02-053-Statut-General-Fonctionnaires-bis" download>Télécharger</a>
+    <a class="btn download" href="https://drive.google.com/file/d/1cMq6tN5oJ2l0B44tcScRZEibC8Ud053J/view?usp=sharing" download>Télécharger</a>
   </div>
 </article>
 
@@ -261,15 +469,107 @@
 
         <!-- Cartes DÉCRETS(Titre + Télécharger) -->
 
-        <article class="doc-card" data-type="decret" data-year="2022" data-title="Décret d'application 2022">
-          <div class="card-body">
-            <h3 class="doc-title">Décret d'application 2022</h3>
-          </div>
-          <div class="card-actions">
-            <a class="btn download" href="documents/decret-2022.pdf" download> Télécharger</a>
-           
-          </div>
-        </article>
+        <article class="doc-card" id="decret_2023_0679_pt_rm_operation_identification_agents_fonction_publique">
+  <div class="card-body">
+    <h3 class="doc-title">Décret 2023-0679 PT-RM opération identification agents fonction publique</h3>
+  </div>
+  <div class="card-actions">
+    <a class="btn download" href="https://drive.google.com/file/d/1UMB_pNoz1GwRluD_QpeCc9PnkSIGlsiH/view?usp=sharing" download>Télécharger</a>
+  </div>
+</article>
+
+<article class="doc-card" id="decret_application_loi_2018_007_du_16_jan_2018">
+  <div class="card-body">
+    <h3 class="doc-title">Décret d'application de la loi 2018-007 du 16 jan 2018</h3>
+  </div>
+  <div class="card-actions">
+    <a class="btn download" href="https://drive.google.com/file/d/11fbhnV-ZuS---R1Yal4odcTgdPxw0xhb/view?usp=sharing" download>Télécharger</a>
+  </div>
+</article>
+
+<article class="doc-card" id="decret_service_minimum">
+  <div class="card-body">
+    <h3 class="doc-title">Décret de service minimum</h3>
+  </div>
+  <div class="card-actions">
+    <a class="btn download" href="https://drive.google.com/file/d/1WbOHVmLNJvzEK0hWuQtEkt9JYRsWogFD/view?usp=sharing" download>Télécharger</a>
+  </div>
+</article>
+
+<article class="doc-card" id="decret_2025_0479_pt_rm_24_juillet_2025_majoration_salaire">
+  <div class="card-body">
+    <h3 class="doc-title">Décret N°2025-0479 PT-RM du 24 juillet 2025 portant majoration salaire</h3>
+  </div>
+  <div class="card-actions">
+    <a class="btn download" href="https://drive.google.com/file/d/10Ic0Q05zi_HMwoS_rBzafVXpp2iVBJpB/view?usp=sharing" download>Télécharger</a>
+  </div>
+</article>
+
+<article class="doc-card" id="decret_admission_retraite_off_2023">
+  <div class="card-body">
+    <h3 class="doc-title">Décret portant admission à la retraite OFF 2023</h3>
+  </div>
+  <div class="card-actions">
+    <a class="btn download" href="https://drive.google.com/file/d/1rbki5b9fdVQsGTCoyI8KZnWhKCFpIAIq/view?usp=sharing" download>Télécharger</a>
+  </div>
+</article>
+
+<article class="doc-card" id="decret_majoration_taux_indemnites_speciales">
+  <div class="card-body">
+    <h3 class="doc-title">Décret portant majoration des taux d'indemnités spéciales</h3>
+  </div>
+  <div class="card-actions">
+    <a class="btn download" href="https://drive.google.com/file/d/10x3RtLpB4iPKybr-n6XqbTDStAVNYdTH/view?usp=sharing" download>Télécharger</a>
+  </div>
+</article>
+
+
+
+<article class="doc-card" id="decret_2025_0028_fixant_prix_cession_redevances_terrains">
+  <div class="card-body">
+    <h3 class="doc-title">Décret n°2025-0028 fixant les prix de cession et redevances terrains</h3>
+  </div>
+  <div class="card-actions">
+    <a class="btn download" href="https://drive.google.com/file/d/1AqGH-_D4siK-LgUGcNuYBjSdHyqR4UkM/view?usp=sharing" download>Télécharger</a>
+  </div>
+</article>
+
+<article class="doc-card" id="decret_2025_0479_du_24_07_2025_majoration_salaire">
+  <div class="card-body">
+    <h3 class="doc-title">Décret N°2025-0479 du 24-07-2025 majoration salaire</h3>
+  </div>
+  <div class="card-actions">
+    <a class="btn download" href="https://drive.google.com/file/d/1sgR3WMs1GwxS0s0P4dUyFPdKOTyUHmyO/view?usp=sharing" download>Télécharger</a>
+  </div>
+</article>
+
+<article class="doc-card" id="decret_05_164_modalites_application_statut_general_fonctionnaires">
+  <div class="card-body">
+    <h3 class="doc-title">Décret 05-164 Modalités Application Statut Général Fonctionnaires</h3>
+  </div>
+  <div class="card-actions">
+    <a class="btn download" href="https://drive.google.com/file/d/1oomExl_tYiHf4NLgCUh5XmbCuWKt0bj7/view?usp=sharing" download>Télécharger</a>
+  </div>
+</article>
+
+<article class="doc-card" id="decret_0067_modalites_application_statut_personnel_enseignant">
+  <div class="card-body">
+    <h3 class="doc-title">Décret 0067 Modalités Application Statut Personnel Enseignant</h3>
+  </div>
+  <div class="card-actions">
+    <a class="btn download" href="https://drive.google.com/file/d/17GYd_aPGdKNx-6113hGmFfB2jgccNc0k/view?usp=sharing" download>Télécharger</a>
+  </div>
+</article>
+
+<article class="doc-card" id="decret_modalites_application_statut_general_fonction_publique">
+  <div class="card-body">
+    <h3 class="doc-title">Décret fixant les modalités d'application du statut général de la fonction publique</h3>
+  </div>
+  <div class="card-actions">
+    <a class="btn download" href="https://drive.google.com/file/d/1DyzKlyNOjnt0hN6gY80W8vGsEP7vzDdy/view?usp=sharing" download>Télécharger</a>
+  </div>
+</article>
+
 
         
         <!-- autres DÉCRETS -->
@@ -283,33 +583,40 @@
         <!-- Cartes ARRÊTÉS(Titre + Télécharger) -->
 
 
-        <article class="doc-card" data-type="arrete" data-year="2019" data-title="Arrêté ministériel 2019">
-          <div class="card-body">
-            <h3 class="doc-title">Arrêté ministériel 2019</h3>
-          </div>
-          <div class="card-actions">
-            <a class="btn download" href="documents/arrete-2019.pdf" download> Télécharger</a>
-           
-          </div>
-        </article>
+        <article class="doc-card" id="arrete_0142_modalite_appel_candidature_directeur_general_men">
+  <div class="card-body">
+    <h3 class="doc-title">Arrêté 0142 Modalité Appel Candidature Directeur Général MEN</h3>
+  </div>
+  <div class="card-actions">
+    <a class="btn download" href="https://drive.google.com/file/d/1AmJ1l6SFOXRqa8cFXwr6-thdY25bMWck/view?usp=sharing" download>Télécharger</a>
+  </div>
+</article>
+
+<article class="doc-card" id="arrete_3282_conditions_modalites_mobilite_mise_en_conge_men">
+  <div class="card-body">
+    <h3 class="doc-title">Arrêté 3282 Conditions Modalités Mobilité Mise En Congé MEN</h3>
+  </div>
+  <div class="card-actions">
+    <a class="btn download" href="https://drive.google.com/file/d/1ZmDj6WcXZAb3llyrIaTBPnPpa-e2X1bm/view?usp=sharing" download>Télécharger</a>
+  </div>
+</article>
+
+<article class="doc-card" id="arrete_3458_modification_arrete_3282_men">
+  <div class="card-body">
+    <h3 class="doc-title">Arrêté 3458 Modification Arrêté 3282 MEN</h3>
+  </div>
+  <div class="card-actions">
+    <a class="btn download" href="https://drive.google.com/file/d/1Ns3HBCDAxEZfx7E49RH02awvoBGL0q5l/view?usp=sharing" download>Télécharger</a>
+  </div>
+</article>
+
 
         <!-- autres Arrêtés -->
 
 
       </div>
 
-      <h2 class="section-title">STATUTS</h2>
-      <div id="documents-grid-statuts" class="cards-grid" aria-live="polite">
-        <article class="doc-card" data-type="statut" data-year="2018" data-title="Statuts du Syndicat Local">
-          <div class="card-body">
-            <h3 class="doc-title">Statuts du Syndicat Local</h3>
-          </div>
-          <div class="card-actions">
-            <a class="btn download" href="documents/statuts-syndicat.pdf" download> Télécharger</a>
-            
-          </div>
-        </article>
-      </div>
+      
 
       <!-- Aperçu modal -->
       <div id="preview-modal" class="modal" aria-hidden="true" role="dialog" aria-label="Aperçu du document">
@@ -322,94 +629,114 @@
 
     <!-- Liens utiles -->
     <section id="liens-utiles" class="links-section" aria-labelledby="liens-title">
-      <h2 id="liens-title" class="section-title">Liens utiles</h2>
-      <div class="links-grid">
-        <a class="link-card" href="https://www.example-ministere-travail.gov" target="_blank" rel="noopener noreferrer">
-          <div class="link-card-body">
-            <div class="icon">⚖️</div>
-            <div>
-              <h3>Ministère du Travail</h3>
-              <p class="small">Textes et démarches administratives</p>
-            </div>
-          </div>
-        </a>
+  <h2 id="liens-title" class="section-title">Sites Utiles</h2>
 
-        <a class="link-card" href="https://www.example-ministere-education.gov" target="_blank" rel="noopener noreferrer">
-          <div class="link-card-body">
-            <div class="icon">🏫</div>
-            <div>
-              <h3>Ministère de l'Éducation</h3>
-              <p class="small">Réglementations pour le secteur éducatif</p>
-            </div>
-          </div>
-        </a>
+  <div class="links-grid">
 
-        <a class="link-card" href="https://cnps.example" target="_blank" rel="noopener noreferrer">
-          <div class="link-card-body">
-            <div class="icon">🧾</div>
-            <div>
-              <h3>CNPS</h3>
-              <p class="small">Sécurité sociale et cotisations</p>
-            </div>
-          </div>
-        </a>
-
-        <a class="link-card" href="https://actualites-syndicales.example" target="_blank" rel="noopener noreferrer">
-          <div class="link-card-body">
-            <div class="icon">📰</div>
-            <div>
-              <h3>Actualités syndicales</h3>
-              <p class="small">Communiqués et news</p>
-            </div>
-          </div>
-        </a>
+    <!-- DRH Secteur de l'Éducation -->
+    <a class="link-card" href="https://www.drh-education.ml" target="_blank" rel="noopener noreferrer">
+      <div class="link-card-body">
+        <img src="logo/DRH.png" alt="DRH Secteur de l'Éducation" style="height:55px; width:auto; border-radius:6px;">
+        <div>
+          <h3>DRH - Secteur de l'Éducation</h3>
+          <p class="small">Direction des Ressources Humaines du Secteur de l'Éducation</p>
+        </div>
       </div>
-    </section>
+    </a>
+
+    <!-- DNFPCT -->
+    <a class="link-card" href="https://www.dnfpct.ml/" target="_blank" rel="noopener noreferrer">
+      <div class="link-card-body">
+        <img src="logo/DNFPCT.png" alt="DNFPCT" style="height:55px; width:auto; border-radius:6px;">
+        <div>
+          <h3>DNFPCT</h3>
+          <p class="small">Direction Nationale de la Fonction Publique et des Collectivités Territoriales</p>
+        </div>
+      </div>
+    </a>
+
+    <!-- DGCT -->
+    <a class="link-card" href="https://dgct.gouv.ml/" target="_blank" rel="noopener noreferrer">
+      <div class="link-card-body">
+        <img src="logo/dgct.png" alt="DGCT Décentralisation" style="height:55px; width:auto; border-radius:6px;">
+        <div>
+          <h3>DGCT</h3>
+          <p class="small">Direction Générale des Collectivités Territoriales</p>
+        </div>
+      </div>
+    </a>
+
+    <!-- Secrétariat Général du Gouvernement -->
+    <a class="link-card" href="https://sgg-mali.ml/fr/accueil.html" target="_blank" rel="noopener noreferrer">
+      <div class="link-card-body">
+        <img src="logo/sgg.jpg" alt="Secrétariat Général du Gouvernement" style="height:55px; width:auto; border-radius:6px;">
+        <div>
+          <h3>SGG - Journal Officiel</h3>
+          <p class="small">Secrétariat Général du Gouvernement et Journal Officiel du Mali</p>
+        </div>
+      </div>
+    </a>
+
+  </div>
+</section>
+
 
     <!-- Contact -->
     <section id="contact" class="contact-section" aria-labelledby="contact-title">
       <h2 id="contact-title" class="section-title">Contact</h2>
       <p>Pour toute question ou contribution, contacte l'administrateur de la page.</p>
-      <p>Email : <a href="mailto:contact@lumesys.example">contact@lumesys.example</a></p>
+      <p>Email : <a href="mailto:contact@lumesys.example">dibrahimdjime@gmail.com</a></p>
+      <p>Tel: 00223 76 85 66 31</p>
     </section>
 
     </div>
   </main>
 
-  <!-- Footer -->
-  <footer class="site-footer" role="contentinfo">
-    <div class="container footer-inner">
+ <!-- Footer -->
+<footer class="site-footer" role="contentinfo">
+  <div class="container footer-inner">
+    
+    <!-- Bloc gauche : liens légaux -->
+    <div class="footer-left">
+      <h3 class="footer-title">Informations légales</h3>
       <div class="footer-links">
-        <a href="privacy-policy.html" class="polisecu" title="Politique de confidentialité du site">Politique de confidentialité</a> |
-        <a href="terms-of-service.html" class="polisecu" title="Conditions de securites">Conditions de sécurité</a>
+        <a href="https://diak.vercel.app/privacy-policy.html" title="Politique de confidentialité">Politique de confidentialité</a>
+        <a href="https://diak.vercel.app/terms-of-service.html" title="Conditions de sécurité">Conditions de sécurité</a>
       </div>
-
-      <div class="social-icons">
-        <a href="https://wa.me/22376856631?text=Bonjour!%20Je%20souhaite%20en%20savoir%20plus%20sur%20votre%20site%20web."
-           target="_blank" class="social-button whatsapp-button" aria-label="Contactez-nous sur WhatsApp">
-          <img src="icone/wa.png" alt="WhatsApp" />
-        </a>
-
-        <a href="https://web.facebook.com/ibrahimdjime.diakite.3" target="_blank" class="social-button facebook-button" aria-label="Partager sur Facebook">
-          <img src="icone/facebook.png" alt="Facebook" />
-        </a>
-
-        <a href="https://twitter.com/DiakitIbra19810" target="_blank" class="social-button twitter-button" aria-label="Partager sur Twitter">
-          <img src="icone/x.png" alt="Twitter" />
-        </a>
-
-        <a href="https://www.instagram.com/ibrahim_djime_diakite" target="_blank" class="social-button instagram-button" aria-label="Voir Instagram">
-          <img src="icone/insta.png" alt="Instagram" />
-        </a>
-
-        <a href="https://www.tiktok.com/@ibradiak0" target="_blank" class="social-button tiktok-button" aria-label="Partager sur TikTok">
-          <img src="icone/tiktok.png" alt="TikTok" />
-        </a>
-      </div>
-
-      <p class="copyright">&copy; 2025 Ibrahim Djimé Diakité. Tous droits réservés.</p>
     </div>
-  </footer>
+
+    <!-- Bloc central : réseaux sociaux -->
+    <div class="footer-center">
+      <h3 class="footer-title">Suivez-nous</h3>
+      <div class="social-icons">
+        <a href="https://wa.me/22376856631?text=Bonjour!%20Je%20souhaite%20en%20savoir%20plus%20sur%20votre%20site%20web." target="_blank" aria-label="WhatsApp">
+          <img src="icone/w.jpg" alt="WhatsApp" />
+        </a>
+        <a href="https://web.facebook.com/ibrahimdjime.diakite.3" target="_blank" aria-label="Facebook">
+          <img src="icone/f.jpg" alt="Facebook" />
+        </a>
+        <a href="https://twitter.com/DiakitIbra19810" target="_blank" aria-label="Twitter">
+          <img src="icone/x.jpg" alt="Twitter" />
+        </a>
+        <a href="https://www.instagram.com/ibrahim_djime_diakite" target="_blank" aria-label="Instagram">
+          <img src="icone/i.jpg" alt="Instagram" />
+        </a>
+        <a href="https://www.tiktok.com/@ibradiak0" target="_blank" aria-label="TikTok">
+          <img src="icone/t.png" alt="TikTok" />
+        </a>
+      </div>
+    </div>
+
+    <!-- Bloc droit : copyright -->
+    <div class="footer-right">
+      <p class="copyright">
+        &copy; 2025 <strong>Ibrahim Djimé Diakité</strong><br>
+        Tous droits réservés.
+      </p>
+    </div>
+  </div>
+</footer>
+
 
   <script src="syndicalistes.js" defer></script>
 </body>
